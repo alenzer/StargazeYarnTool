@@ -7,57 +7,38 @@ const config = require('../config');
 
 export async function setNewUri(uri: string, numTokens: string) {
   const client = await getClient();
-  let res = await client.queryContractSmart(config.minter, {
-    config: {}
-  })
-  console.log(res)
+  // let res = await client.queryContractSmart(config.minter, {
+  //   config: {}
+  // })
+  // console.log(res)
 
-  res = await client.queryContractSmart(config.minter, {
-    internal_info: {}
-  })
-  console.log(res)
+  // res = await client.queryContractSmart(config.minter, {
+  //   internal_info: {}
+  // })
+  // console.log(res)
 
-  res = await client.queryContractSmart(config.sg721, {
-    num_tokens: {}
-  })
-  console.log(res)
+  console.log('Minter contract: ', config.minter);
+  console.log('New base URI: ', uri);
+  console.log("num tokens: ", numTokens);
 
-  res = await client.queryContractSmart(config.sg721, {
-    nft_info: {token_id: "1"}
-  })
-  console.log(res)
+  const msg = { set_token_uri: { uri, num_tokens: parseInt(numTokens) } };
+  console.log(JSON.stringify(msg, null, 2));
 
-  res = await client.queryContractSmart(config.sg721, {
-    nft_info: {token_id: "71"}
-  })
-  console.log(res)
-
-  res = await client.queryContractSmart(config.sg721, {
-    nft_info: {token_id: "72"}
-  })
-  console.log(res)
-  // console.log('Minter contract: ', config.minter);
-  // console.log('New base URI: ', uri);
-  // console.log("num tokens: ", numTokens);
-
-  // const msg = { set_token_uri: { uri, num_tokens: parseInt(numTokens) } };
-  // console.log(JSON.stringify(msg, null, 2));
-
-  // const result = await client.execute(
-  //   config.account,
-  //   config.minter,
-  //   msg,
-  //   'auto',
-  //   'mint to'
-  // );
-  // const wasmEvent = result.logs[0].events.find((e) => e.type === 'wasm');
-  // console.info(
-  //   'The `wasm` event emitted by the contract execution:',
-  //   wasmEvent
-  // );
-  // if (wasmEvent != undefined) {
-  //   console.info(wasmEvent);
-  // }
+  const result = await client.execute(
+    config.account,
+    config.minter,
+    msg,
+    'auto',
+    'mint to'
+  );
+  const wasmEvent = result.logs[0].events.find((e) => e.type === 'wasm');
+  console.info(
+    'The `wasm` event emitted by the contract execution:',
+    wasmEvent
+  );
+  if (wasmEvent != undefined) {
+    console.info(wasmEvent);
+  }
 }
 
 const args = process.argv.slice(2);
