@@ -42,6 +42,9 @@
     "devops-launch": "ts-node devops/testnet-launch.ts",
     "floor": "ts-node marketplace/floor-price.ts",
     "sweep": "ts-node marketplace/floor-sweeper.ts",
-    "convert": "ts-node scripts/convert.ts"
+    "convert": "ts-node scripts/convert.ts",
+    
+    "upload-minter": "ts-node devops/upload-minter.ts",
+    "set-new-uri": "ts-node scripts/set-new-uri.ts"
   }
 }

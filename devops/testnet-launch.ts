@@ -56,6 +56,21 @@ import { init as minterInit } from '../scripts/minter';
 import { batchMint } from '../scripts/mint';
 import { toStars } from '../src/utils';
 
+import { readFileSync } from 'fs';
+
+async function upload(contractPath: string) {
+  console.log("uploading wasm")
+  const client = await getClient();
+  const wasm = readFileSync(contractPath);
+  try {
+    const tx = await client.upload(config.account, wasm, 'auto');
+    return tx.codeId;
+  } catch (error) {
+    console.error('Error:' + error);
+    process.exit(1);
+  }
+}
+
 async function testnet_init() {
   if (config.rpcEndpoint == 'https://rpc.stargaze-apis.com/') {
     throw new Error('RPC pointed to mainnet. Change rpcEndpoint in config.js');
@@ -159,3 +174,4 @@ async function transferNft(
 }
 
 testnet_init();
+// upload('./wasm/minter.wasm');

@@ -13,7 +13,7 @@ export async function getClient() {
   const wallet = await DirectSecp256k1HdWallet.fromMnemonic(config.mnemonic, {
     prefix: 'stars',
   });
-
+  
   if (!isValidHttpUrl(config.rpcEndpoint)) {
     throw new Error('Invalid RPC endpoint');
   }
